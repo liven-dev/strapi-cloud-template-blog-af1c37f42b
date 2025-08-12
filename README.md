@@ -1,61 +1,119 @@
-# 🚀 Strapi для тестів, тимчасовий репозиторій. Буде видалений
+# Strapi App (Temporary Test Repository)
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+This is a Strapi v5 application used for testing and demos. It includes a small example dataset and media assets you can import via a provided seeding script. Note: this repository is temporary and may be removed.
 
-### `develop`
+## Requirements
+- Node.js 18.x–22.x (see `package.json` engines)
+- npm (or yarn)
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+## Quick start
+```bash
+# Install dependencies
+npm install
 
-```
+# Start in development mode (auto-reload)
 npm run develop
-# or
-yarn develop
-```
 
-### `start`
-
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
-
-```
-npm run start
-# or
-yarn start
-```
-
-### `build`
-
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
-
-```
+# Build admin panel (for production)
 npm run build
-# or
-yarn build
+
+# Start in production mode
+npm run start
 ```
 
-## ⚙️ Deployment
+Once running in development, open the admin at http://localhost:1337/admin and create the first admin user when prompted.
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+## Scripts
+- `npm run develop`: Start Strapi with auto-reload
+- `npm run start`: Start Strapi without auto-reload
+- `npm run build`: Build the admin panel
+- `npm run deploy`: Strapi Cloud deploy helper (optional)
+- `npm run seed:example`: Run the example data importer
 
+## Example data seeding
+This project ships with an example dataset (articles, authors, categories, global settings, and about page) and media files in `data/`.
+
+To import the example content:
+```bash
+npm run seed:example
 ```
-yarn strapi deploy
+Notes:
+- The seeder runs a one-time guard using Strapi’s store. If you need to re-seed on SQLite, stop the server and delete the database file `.tmp/data.db`, then run the seed again.
+- On Postgres/MySQL, clear the database (or drop relevant tables) before re-running the seed.
+
+## Environment variables
+Create a `.env` file in the project root. Below is a minimal example for local development with SQLite:
+```env
+# Server
+HOST=0.0.0.0
+PORT=1337
+APP_KEYS=your-app-key-1,your-app-key-2,your-app-key-3,your-app-key-4
+WEBHOOKS_POPULATE_RELATIONS=false
+
+# Admin / tokens
+ADMIN_JWT_SECRET=your-admin-jwt-secret
+API_TOKEN_SALT=your-api-token-salt
+TRANSFER_TOKEN_SALT=your-transfer-token-salt
+FLAG_NPS=true
+FLAG_PROMOTE_EE=true
+
+# Database (SQLite default)
+DATABASE_CLIENT=sqlite
+DATABASE_FILENAME=.tmp/data.db
+DATABASE_CONNECTION_TIMEOUT=60000
 ```
 
-## 📚 Learn more
+### Postgres example
+```env
+DATABASE_CLIENT=postgres
+DATABASE_URL=postgres://USER:PASSWORD@HOST:5432/DB_NAME
+DATABASE_HOST=HOST
+DATABASE_PORT=5432
+DATABASE_NAME=DB_NAME
+DATABASE_USERNAME=USER
+DATABASE_PASSWORD=PASSWORD
+DATABASE_SCHEMA=public
+DATABASE_SSL=false
+DATABASE_POOL_MIN=2
+DATABASE_POOL_MAX=10
+```
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+### MySQL example
+```env
+DATABASE_CLIENT=mysql
+DATABASE_HOST=HOST
+DATABASE_PORT=3306
+DATABASE_NAME=DB_NAME
+DATABASE_USERNAME=USER
+DATABASE_PASSWORD=PASSWORD
+DATABASE_SSL=false
+DATABASE_POOL_MIN=2
+DATABASE_POOL_MAX=10
+```
 
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
+If you enable `DATABASE_SSL=true`, optional fields are supported:
+```env
+DATABASE_SSL_KEY=
+DATABASE_SSL_CERT=
+DATABASE_SSL_CA=
+DATABASE_SSL_CAPATH=
+DATABASE_SSL_CIPHER=
+DATABASE_SSL_REJECT_UNAUTHORIZED=true
+```
 
-## ✨ Community
+## Project structure (high level)
+- `src/` — Strapi application code and bootstrap
+- `config/` — Configuration for server, admin, plugins, and database
+- `scripts/seed.js` — Example data seeding script
+- `data/` — Example content and uploaded media used by the seeder
+- `.tmp/` — SQLite database (when using the default local SQLite)
 
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+## Notes
+- Default database is SQLite. For Postgres/MySQL, set env vars as shown above.
+- Example content types seeded: `article`, `author`, `category`, `global`, `about`.
+- This repository is intended for testing; do not use production secrets.
 
----
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+## Learn more
+- Strapi CLI and docs: https://docs.strapi.io
+- Strapi Cloud: https://cloud.strapi.io
+- Community: https://discord.strapi.io
