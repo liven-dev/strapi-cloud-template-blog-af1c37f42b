@@ -117,3 +117,5 @@ DATABASE_SSL_REJECT_UNAUTHORIZED=true
 - Strapi CLI and docs: https://docs.strapi.io
 - Strapi Cloud: https://cloud.strapi.io
 - Community: https://discord.strapi.io
+
+test
